@@ -55,3 +55,25 @@ export default function Autocomplete({
     </Form>
   );
 }
+
+export function AutocompleteSkeleton({
+  classNames = {}
+}: Props) {
+  return (
+    <Form action="/" className={cn('ais-Autocomplete', classNames.root)} role="search">
+      <label className={cn('ais-Autocomplete-label', classNames.label)} htmlFor="search">
+        Search
+      </label>
+      <input
+        autoComplete="off"
+        id="search"
+        defaultValue=""
+        className={cn('ais-Autocomplete-input ais-Autocomplete-input--disabled', classNames.input)}
+        name="query"
+        placeholder="Search in product title or brand name..."
+        type="search"
+        disabled={true}
+      />
+    </Form>
+  );
+}
