@@ -58,8 +58,8 @@ export default function RefinementList({ attribute, facetsPromise, classNames = 
           if (attribute === 'rating') {
             return a.value.localeCompare(b.value);
           } else if (attribute === 'price_range') {
-            let aParts = a.value.split(' ');
-            let bParts = b.value.split(' ');
+            const aParts = a.value.split(' ');
+            const bParts = b.value.split(' ');
 
             const aValue = aParts.length == 3 
               ? Number(aParts[0])
