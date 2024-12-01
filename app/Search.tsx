@@ -115,7 +115,7 @@ export default function Search(props: SearchProps) {
         }
 
         <Suspense key={`hits-${JSON.stringify(props)}`} fallback={<HitsSkeleton />}>
-          <Hits hitsPromise={hitsPromise} />
+          <Hits hitsPromise={hitsPromise} query={props.query} />
         </Suspense>
 
         <div className="mt-4 flex flex-col items-center lg:flex-row lg:space-x-4">

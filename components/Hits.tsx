@@ -8,10 +8,11 @@ import Hit, { HitSkeleton } from '@/components/Hit';
 import { cn } from '@/utils/cn';
 
 type Props = {
-  hitsPromise: Promise<{ hits: _Hit[], executionTime: number }>
+  hitsPromise: Promise<{ hits: _Hit[], executionTime: number }>,
+  query?: string
 };
 
-export default function Hits({ hitsPromise }: Props) {
+export default function Hits({ hitsPromise, query }: Props) {
   const { hits, executionTime } = use(hitsPromise);
 
   const { view, setHitsLoadingTime } = useSearch();
@@ -28,7 +29,7 @@ export default function Hits({ hitsPromise }: Props) {
       )}>
         {hits.map((hit: _Hit) => (
           <li className="ais-Hits-item !radius-none !p-0 !shadow-none" key={hit.id}>
-            <Hit hit={hit} view={view} />
+            <Hit hit={hit} view={view} query={query} />
           </li>
         ))}
       </ol>

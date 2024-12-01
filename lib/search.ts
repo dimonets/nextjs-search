@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { dbQuery } from '@/db/index';
-import { unstable_cacheLife as cacheLife } from 'next/cache'
+import { unstable_cacheLife as cacheLife } from 'next/cache';
 //import { unstable_cache } from 'next/cache';
 //import { slow } from '@/utils/slow';
 
