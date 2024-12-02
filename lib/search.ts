@@ -2,7 +2,7 @@ import 'server-only';
 
 import { dbQuery } from '@/db/index';
 import { unstable_cacheLife as cacheLife } from 'next/cache';
-//import { unstable_cache } from 'next/cache';
+import { unstable_cache } from 'next/cache';
 //import { slow } from '@/utils/slow';
 
 export type SearchQueryProps = {
@@ -48,10 +48,10 @@ export type Stat = {
   count: number
 }
 
-//export const getFacets = unstable_cache(async (props: SearchQueryProps): Promise<{ facets: Facet[] }> => {
-export async function getFacets(props: SearchQueryProps): Promise<{ facets: Facet[] }> {
-  'use cache';
-  cacheLife('hours');
+export const getFacets = unstable_cache(async (props: SearchQueryProps): Promise<{ facets: Facet[] }> => {
+//export async function getFacets(props: SearchQueryProps): Promise<{ facets: Facet[] }> {
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getFacets', new Date().toLocaleTimeString());
 
@@ -102,17 +102,17 @@ export async function getFacets(props: SearchQueryProps): Promise<{ facets: Face
   //await slow(2000);
 
   return { facets: rows };
-}
-/*
+//}
+
   },
   ['facets'],
   { revalidate: 3600, tags: ['facets'] }
 );
-*/
+
 
 export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
-  'use cache';
-  cacheLife('hours');
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getResults', new Date().toLocaleTimeString());
 
@@ -200,10 +200,10 @@ export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
   return {hits: rows};
 }
 
-//export const getStats = unstable_cache(async (props: any): Promise<Stat> => {
-export async function getStats(props: SearchQueryProps): Promise<Stat> {
-  'use cache';
-  cacheLife('hours');
+export const getStats = unstable_cache(async (props: SearchQueryProps): Promise<Stat> => {
+//export async function getStats(props: SearchQueryProps): Promise<Stat> {
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getStats', new Date().toLocaleTimeString());
 
@@ -233,10 +233,9 @@ export async function getStats(props: SearchQueryProps): Promise<Stat> {
   //await slow(3000);
 
   return row;
-}
-/*
+//}
+
 },
 ['stats'],
 { revalidate: 3600, tags: ['stats'] }
 );
-*/
