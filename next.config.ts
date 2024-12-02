@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   experimental: {
     ppr: 'incremental',
-    //dynamicIO: true,
+    dynamicIO: true,
     reactCompiler: true,
     staleTimes: {
       dynamic: 30,
