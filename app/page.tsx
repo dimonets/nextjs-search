@@ -4,7 +4,8 @@ import Search from './Search';
 import SearchProvider from '@/providers/SearchProvider';
 import { type SearchProps } from '@/lib/search';
 
-export const runtime = 'edge';
+// EDGE Runtime is not working with pg
+//export const runtime = 'edge';
 
 type PageProps = {
   //params: Promise<any>;
