@@ -23,7 +23,7 @@ export default function HitsPerPage({
   const [isPending, startTransition] = useTransition();
   return (
     <div className={cn('ais-HitsPerPage', classNames.root)}>
-      <select className={cn('ais-HitsPerPage-select', classNames.select)}
+      <select className={cn('ais-HitsPerPage-select', classNames.select)} role="img" aria-label="Refine page size"
         onChange={e => {
           startTransition(() => {
             const newSearchParams = new URLSearchParams(searchParams.toString());

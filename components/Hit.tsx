@@ -62,7 +62,7 @@ export default function Hit({ hit, view, query }: Props) {
 
           <div className="mx-auto mt-4 flex space-x-2 items-center justify-center">
             {hit.sale_price && hit.sale_price > 0 ? <s>${hit.price}</s> : <span>${hit.price}</span>}
-            {hit.sale_price && hit.sale_price > 0 ? <strong className="font-bold text-gray-400">Save {getDiscount(hit.price, hit.sale_price)}%</strong> : null}
+            {hit.sale_price && hit.sale_price > 0 ? <strong className="font-bold text-gray-700">Save {getDiscount(hit.price, hit.sale_price)}%</strong> : null}
             {hit.sale_price && hit.sale_price > 0 ? <span>${hit.sale_price}</span> : null}
           </div>
 
@@ -131,7 +131,7 @@ export default function Hit({ hit, view, query }: Props) {
 
             <div className="mx-auto md:mx-0 mt-2 flex flex-wrap space-x-2 items-center justify-center md:justify-start">
               {hit.sale_price && hit.sale_price > 0 ? <s>${hit.price}</s> : <span>${hit.price}</span>}
-              {hit.sale_price && hit.sale_price > 0 ? <strong className="font-bold text-gray-400">Save {getDiscount(hit.price, hit.sale_price)}%</strong> : null}
+              {hit.sale_price && hit.sale_price > 0 ? <strong className="font-bold text-gray-700">Save {getDiscount(hit.price, hit.sale_price)}%</strong> : null}
               {hit.sale_price && hit.sale_price > 0 ? <span>${hit.sale_price}</span> : null}
             </div>
 

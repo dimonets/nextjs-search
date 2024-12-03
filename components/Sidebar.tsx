@@ -26,7 +26,7 @@ export default function Sidebar({ children }: PropsWithChildren) {
         data-sidebar-open={showSidebar ? '' : undefined}
       >
         <button type="button" onClick={() => setShowSidebar(false)} className="mx-auto flex text-xl justify-center">✕</button>
-        <h3 className="text-center text-2xl medium">Filter and Sort</h3>
+        <h2 className="text-center text-2xl medium">Filter and Sort</h2>
         <button type="button" className="mt-4 block md:hidden w-full text-center space-x-2 px-4 h-10 bg-gray-600 uppercase text-white rounded border border-gray-600 cursor-pointer" onClick={() => setShowSidebar(false)}>View Results</button>
         <div className="mt-4 flex flex-col">
           <div className="order-2 mt-4">

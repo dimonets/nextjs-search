@@ -24,7 +24,7 @@ export default function SortBy({
 
   return (
     <div className={cn('ais-SortBy', classNames.root)}>
-      <select className={cn('ais-SortBy-select', classNames.select)} aria-label="Sort results by"
+      <select className={cn('ais-SortBy-select', classNames.select)} role="img" aria-label="Sort results by"
         onChange={e => {
           startTransition(() => {
             const newSearchParams = new URLSearchParams(searchParams.toString());
