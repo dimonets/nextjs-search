@@ -50,7 +50,7 @@ export default function Autocomplete({
           scroll: false,
         });
       });
-    }, 300)
+    }, 350)
   ).current;
 
   return (
