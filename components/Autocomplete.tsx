@@ -16,15 +16,15 @@ type Props = {
   classNames?: Partial<AutocompleteClassNames>
 };
 
-function debouncePromise(fn: any, time: number) {
+function debouncePromise(fn: (e: React.ChangeEvent<HTMLInputElement>) => void, time: number) {
   let timer: NodeJS.Timeout | string | number | undefined = undefined;
 
-  return function debounced(...args: any[]) {
+  return function debounced(arg: React.ChangeEvent<HTMLInputElement>) {
     if (timer)
       clearTimeout(timer); // Clear the timeout first if it's already defined.
 
     return new Promise((resolve) => {
-      timer = setTimeout(() => resolve(fn(...args)), time);
+      timer = setTimeout(() => resolve(fn(arg)), time);
     });
   };
 }
