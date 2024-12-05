@@ -47,7 +47,7 @@ with open('products.sql', 'w') as output_file:
     else:
       sale_price = 'NULL'
 
-    is_featured = False if 'image' not in record or record['image'] == None or record['price'] < 50 else random.random() > 0.8
+    is_featured = False if 'image' not in record or record['image'] == None or record['price'] < 70 else random.random() > 0.8
     on_clearance = random.random() > 0.8
     free_shipping = record['free_shipping'] == True
 
