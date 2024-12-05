@@ -1,7 +1,9 @@
-import { Suspense } from 'react';
+import { Suspense, memo } from 'react';
 import Link from 'next/link';
 import Autocomplete, { AutocompleteSkeleton } from './Autocomplete';
 import Nav from './Nav';
+
+const AutocompleteMemo = memo(Autocomplete);
 
 export default function Header() {
   return (
@@ -15,7 +17,7 @@ export default function Header() {
             label: 'hidden font-semibold uppercase',
             input: 'w-full h-10 pl-10 pr-2 sm:w-96 md:w-[500px] bg-gray-100'
           }} />}>
-          <Autocomplete classNames={{
+          <AutocompleteMemo classNames={{
             root: 'order-4 sm:order-2 mt-4 sm:mt-0 relative flex w-full flex-col min-h-10 gap-1 sm:w-fit',
             label: 'hidden font-semibold uppercase',
             input: 'w-full h-10 pl-10 pr-2 sm:w-96 md:w-[500px]'

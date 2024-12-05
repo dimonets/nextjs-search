@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, memo } from 'react';
 import Stats, { StatsSkeleton } from '@/components/Stats';
 import Hits, { HitsSkeleton, ViewButton } from '@/components/Hits';
 import Sidebar, { ShowSidebarButton } from '@/components/Sidebar';
@@ -14,6 +14,11 @@ import LoadingTime from '@/components/LoadingTime';
 import { getFacets, getResults, getStats, type SearchProps, type SearchQueryProps } from '@/lib/search';
 
 import { stopwatchWrapper } from '@/utils/stopwatch';
+
+const StatsMemo = memo(Stats);
+const HitsMemo = memo(Hits);
+const RefinementListMemo = memo(RefinementList);
+const PaginationMemo = memo(Pagination);
 
 const facets = [{
   attribute: 'categories',
@@ -50,7 +55,7 @@ export default function Search(props: SearchProps) {
           <Suspense key={`facets-${facet.attribute}`} fallback={<PanelSkeleton header={facet.title} collapsible={true} classNames={{ header: '!text-gray-300' }} />}>
             <Panel header={facet.title} collapsible={true}>
               {(facet.attribute === 'number_of_bulbs')
-                ? <RefinementList attribute={facet.attribute} facetsPromise={facetsPromise} classNames={{
+                ? <RefinementListMemo attribute={facet.attribute} facetsPromise={facetsPromise} classNames={{
                     root: 'numbers-of-lights',
                     list: 'grid grid-cols-4 gap-4 max-w-64',
                     item: 'flex m-0 p-0',
@@ -59,7 +64,7 @@ export default function Search(props: SearchProps) {
                     labelText: 'w-full py-1 px-2 inline-flex items-center justify-center text-sm font-medium cursor-pointer text-gray-900 focus:outline-none bg-white border border-brand-300 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 bg-blue-50 text-brand-700 peer-hover:bg-gray-100 peer-hover:text-primary-700 peer-checked:bg-gray-100 peer-checked:text-primary-700',
                     count: '!hidden'
                   }} />
-                : <RefinementList attribute={facet.attribute} facetsPromise={facetsPromise} />
+                : <RefinementListMemo attribute={facet.attribute} facetsPromise={facetsPromise} />
               }
             </Panel>
           </Suspense>
@@ -72,7 +77,7 @@ export default function Search(props: SearchProps) {
             <Suspense key={`stats-${JSON.stringify(props)}`} fallback={<StatsSkeleton classNames={{ root: 'flex-none text-center lg:text-left' }} />}>
             */}
             <Suspense key={`stats`} fallback={<StatsSkeleton classNames={{ root: 'flex-none text-center lg:text-left' }} />}>
-              <Stats statsPromise={statsPromise} classNames={{ root: 'flex-none text-center lg:text-left' }} />
+              <StatsMemo statsPromise={statsPromise} classNames={{ root: 'flex-none text-center lg:text-left' }} />
             </Suspense>
           </div>
           <div className="mt-2 hidden flex-1 items-center space-x-4 lg:mt-0 lg:flex">
@@ -91,7 +96,7 @@ export default function Search(props: SearchProps) {
                 <Suspense key={`facets-${facet.attribute}`} fallback={<FacetDropdown title={facet.title} isRefined={props[facet.attribute as keyof SearchQueryProps] ? true : false} isDisabled={true} classNames={{ root: 'w-full overflow-hidden relative', button: 'w-full whitespace-nowrap !cursor-default isolate overflow-hidden before:absolute before:z-10 before:inset-0 before:-translate-x-full before:animate-[shimmer_3s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-50 before:to-transparent'}} />}>
                   <FacetDropdown title={facet.title} isRefined={props[facet.attribute as keyof SearchQueryProps] ? true : false} classNames={{ root: 'flex-1', button: 'w-full whitespace-nowrap'}}>
                     {(facet.attribute === 'number_of_bulbs')
-                      ? <RefinementList attribute={facet.attribute} facetsPromise={facetsPromise} classNames={{
+                      ? <RefinementListMemo attribute={facet.attribute} facetsPromise={facetsPromise} classNames={{
                           root: 'numbers-of-lights',
                           list: 'grid grid-cols-4 gap-4 max-w-64',
                           item: 'flex m-0 p-0',
@@ -100,7 +105,7 @@ export default function Search(props: SearchProps) {
                           labelText: 'w-full py-1 px-2 inline-flex items-center justify-center text-sm font-medium cursor-pointer text-gray-900 focus:outline-none bg-white border border-brand-300 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 bg-blue-50 text-brand-700 peer-hover:bg-gray-100 peer-hover:text-primary-700 peer-checked:bg-gray-100 peer-checked:text-primary-700',
                           count: '!hidden'
                         }} />
-                      : <RefinementList attribute={facet.attribute} facetsPromise={facetsPromise} />
+                      : <RefinementListMemo attribute={facet.attribute} facetsPromise={facetsPromise} />
                     }
                   </FacetDropdown>
                 </Suspense>
@@ -127,7 +132,7 @@ export default function Search(props: SearchProps) {
         <Suspense key={`hits-${JSON.stringify(props)}`} fallback={<HitsSkeleton />}>
         */}
         <Suspense key={`hits`} fallback={<HitsSkeleton />}>
-          <Hits hitsPromise={hitsPromise} query={props.query} />
+          <HitsMemo hitsPromise={hitsPromise} query={props.query} />
         </Suspense>
 
         <div className="mt-4 flex flex-col items-center lg:flex-row lg:space-x-4">
@@ -141,7 +146,7 @@ export default function Search(props: SearchProps) {
             root: 'mt-4 lg:mt-0 mx-auto lg:mx-0 flex-shrink order-2 lg:order-1 justify-center lg:justify-start overflow-hidden relative', 
             list: 'isolate overflow-hidden before:h-8 before:absolute before:z-10 before:inset-0 before:-translate-x-full before:animate-[shimmer_3s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-50 before:to-transparent'
           }} />}>
-            <Pagination statsPromise={statsPromise} pageSize={props.size} currentPage={props.page} classNames={{ 
+            <PaginationMemo statsPromise={statsPromise} pageSize={props.size} currentPage={props.page} classNames={{ 
               root: 'mt-4 lg:mt-0 mx-auto lg:mx-0 flex-shrink order-2 lg:order-1 justify-center lg:justify-start', 
             }} />
           </Suspense>
@@ -150,7 +155,7 @@ export default function Search(props: SearchProps) {
             <Suspense key={`stats-${JSON.stringify(props)}`} fallback={<StatsSkeleton classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />}>
             */}
             <Suspense key={`stats`} fallback={<StatsSkeleton classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />}>
-              <Stats statsPromise={statsPromise} classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />
+              <StatsMemo statsPromise={statsPromise} classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />
             </Suspense>
             <HitsPerPage classNames={{ root: 'flex-none ml-auto lg:ml-0 order-1 md:order-2' }} />
           </div>

@@ -2,7 +2,7 @@
 
 import Form from 'next/form';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useTransition } from 'react';
+import React, { useTransition, useRef } from 'react';
 import SearchStatus from './SearchStatus';
 import { cn } from '@/utils/cn';
 
@@ -16,6 +16,19 @@ type Props = {
   classNames?: Partial<AutocompleteClassNames>
 };
 
+function debouncePromise(fn: any, time: number) {
+  let timer: NodeJS.Timeout | string | number | undefined = undefined;
+
+  return function debounced(...args: any[]) {
+    if (timer)
+      clearTimeout(timer); // Clear the timeout first if it's already defined.
+
+    return new Promise((resolve) => {
+      timer = setTimeout(() => resolve(fn(...args)), time);
+    });
+  };
+}
+
 export default function Autocomplete({
   classNames = {}
 }: Props) {
@@ -23,6 +36,22 @@ export default function Autocomplete({
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
   const [isPending, startTransition] = useTransition();
+
+  const onChangeDebounced = useRef(
+    debouncePromise(async (e: React.ChangeEvent<HTMLInputElement>) => {
+      startTransition(() => {
+        const newSearchParams = new URLSearchParams(searchParams.toString());
+        newSearchParams.delete('page');
+        if (e.target.value && typeof e.target.value === 'string' && e.target.value.length > 0)
+          newSearchParams.set('query', e.target.value);
+        else
+          newSearchParams.delete('query');
+        router.push(`?${newSearchParams.toString()}`, {
+          scroll: false,
+        });
+      });
+    }, 400)
+  ).current;
 
   return (
     <Form action="/" className={cn('ais-Autocomplete', classNames.root)} role="search">
@@ -32,19 +61,7 @@ export default function Autocomplete({
       <input
         autoComplete="off"
         id="search"
-        onChange={e => {
-          startTransition(() => {
-            const newSearchParams = new URLSearchParams(searchParams.toString());
-            newSearchParams.delete('page');
-            if (e.target.value && typeof e.target.value === 'string' && e.target.value.length > 0)
-              newSearchParams.set('query', e.target.value);
-            else
-              newSearchParams.delete('query');
-            router.push(`?${newSearchParams.toString()}`, {
-              scroll: false,
-            });
-          });
-        }}
+        onChange={onChangeDebounced}
         defaultValue={query}
         className={cn('ais-Autocomplete-input', classNames.input)}
         name="query"
