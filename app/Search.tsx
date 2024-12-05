@@ -44,7 +44,10 @@ export default function Search(props: SearchProps) {
     <div className="group">
       <Sidebar>
         {facets.map((facet) => (
+          /*
           <Suspense key={`facets-${facet.attribute}-${JSON.stringify(props)}`} fallback={<PanelSkeleton header={facet.title} collapsible={true} classNames={{ header: '!text-gray-300' }} />}>
+          */
+          <Suspense key={`facets-${facet.attribute}`} fallback={<PanelSkeleton header={facet.title} collapsible={true} classNames={{ header: '!text-gray-300' }} />}>
             <Panel header={facet.title} collapsible={true}>
               {(facet.attribute === 'number_of_bulbs')
                 ? <RefinementList attribute={facet.attribute} facetsPromise={facetsPromise} classNames={{
@@ -65,7 +68,10 @@ export default function Search(props: SearchProps) {
       <div className="group-has-[[data-sidebar-open]]:overflow-hidden group-has-[[data-sidebar-open]]:h-0 group-has-[[data-sidebar-open]]:sm:overflow-auto group-has-[[data-sidebar-open]]:sm:h-auto group">
         <div className="mt-2 items-center md:space-x-4 lg:flex">
           <div className="flex-1">
+            {/*
             <Suspense key={`stats-${JSON.stringify(props)}`} fallback={<StatsSkeleton classNames={{ root: 'flex-none text-center lg:text-left' }} />}>
+            */}
+            <Suspense key={`stats`} fallback={<StatsSkeleton classNames={{ root: 'flex-none text-center lg:text-left' }} />}>
               <Stats statsPromise={statsPromise} classNames={{ root: 'flex-none text-center lg:text-left' }} />
             </Suspense>
           </div>
@@ -79,7 +85,10 @@ export default function Search(props: SearchProps) {
           <div className="hidden lg:flex lg:w-full lg:items-center lg:space-x-4">
             {facets.map((facet) => (
               <div key={`facets-${facet.attribute}`} className="flex-1">
+                {/*
                 <Suspense key={`facets-${facet.attribute}-${JSON.stringify(props)}`} fallback={<FacetDropdown title={facet.title} isRefined={props[facet.attribute as keyof SearchQueryProps] ? true : false} isDisabled={true} classNames={{ root: 'w-full overflow-hidden relative', button: 'w-full whitespace-nowrap !cursor-default isolate overflow-hidden before:absolute before:z-10 before:inset-0 before:-translate-x-full before:animate-[shimmer_3s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-50 before:to-transparent'}} />}>
+                */}
+                <Suspense key={`facets-${facet.attribute}`} fallback={<FacetDropdown title={facet.title} isRefined={props[facet.attribute as keyof SearchQueryProps] ? true : false} isDisabled={true} classNames={{ root: 'w-full overflow-hidden relative', button: 'w-full whitespace-nowrap !cursor-default isolate overflow-hidden before:absolute before:z-10 before:inset-0 before:-translate-x-full before:animate-[shimmer_3s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-50 before:to-transparent'}} />}>
                   <FacetDropdown title={facet.title} isRefined={props[facet.attribute as keyof SearchQueryProps] ? true : false} classNames={{ root: 'flex-1', button: 'w-full whitespace-nowrap'}}>
                     {(facet.attribute === 'number_of_bulbs')
                       ? <RefinementList attribute={facet.attribute} facetsPromise={facetsPromise} classNames={{
@@ -114,12 +123,21 @@ export default function Search(props: SearchProps) {
           </div>
         }
 
+        {/*
         <Suspense key={`hits-${JSON.stringify(props)}`} fallback={<HitsSkeleton />}>
+        */}
+        <Suspense key={`hits`} fallback={<HitsSkeleton />}>
           <Hits hitsPromise={hitsPromise} query={props.query} />
         </Suspense>
 
         <div className="mt-4 flex flex-col items-center lg:flex-row lg:space-x-4">
+          {/*
           <Suspense key={`pagination-${JSON.stringify(props)}`} fallback={<PaginationSkeleton classNames={{ 
+            root: 'mt-4 lg:mt-0 mx-auto lg:mx-0 flex-shrink order-2 lg:order-1 justify-center lg:justify-start overflow-hidden relative', 
+            list: 'isolate overflow-hidden before:h-8 before:absolute before:z-10 before:inset-0 before:-translate-x-full before:animate-[shimmer_3s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-50 before:to-transparent'
+          }} />}>
+          */}
+          <Suspense key={`pagination`} fallback={<PaginationSkeleton classNames={{ 
             root: 'mt-4 lg:mt-0 mx-auto lg:mx-0 flex-shrink order-2 lg:order-1 justify-center lg:justify-start overflow-hidden relative', 
             list: 'isolate overflow-hidden before:h-8 before:absolute before:z-10 before:inset-0 before:-translate-x-full before:animate-[shimmer_3s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-50 before:to-transparent'
           }} />}>
@@ -128,7 +146,10 @@ export default function Search(props: SearchProps) {
             }} />
           </Suspense>
           <div className="order-1 flex flex-auto flex-col items-center justify-center lg:justify-end space-x-4 md:flex-row lg:order-2 lg:ml-auto">
+            {/*
             <Suspense key={`stats-${JSON.stringify(props)}`} fallback={<StatsSkeleton classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />}>
+            */}
+            <Suspense key={`stats`} fallback={<StatsSkeleton classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />}>
               <Stats statsPromise={statsPromise} classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />
             </Suspense>
             <HitsPerPage classNames={{ root: 'flex-none ml-auto lg:ml-0 order-1 md:order-2' }} />
