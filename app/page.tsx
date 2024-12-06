@@ -5,10 +5,9 @@ import SearchProvider from '@/providers/SearchProvider';
 import { type SearchProps } from '@/lib/search';
 
 // EDGE Runtime is not working with pg
-//export const runtime = 'edge';
+export const runtime = 'edge';
 
 type PageProps = {
-  //params: Promise<any>;
   searchParams: Promise<SearchProps>;
 };
 
@@ -38,7 +37,3 @@ export default async function Home({ searchParams }: PageProps) {
     </>
   );
 }
-
-export const config = {
-  runtime: 'edge',
-};

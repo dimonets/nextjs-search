@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   compress: true,
   experimental: {
     ppr: 'incremental',
-    dynamicIO: true,
+    //dynamicIO: true,
     reactCompiler: true,
     staleTimes: {
       dynamic: 30,
