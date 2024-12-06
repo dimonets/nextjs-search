@@ -4,6 +4,6 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": "off",
     "@next/next/no-img-element": "off",
-    "react-compiler/react-compiler": "off"
+    "react-compiler/react-compiler": "error"
   }
 }

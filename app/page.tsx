@@ -4,8 +4,8 @@ import Search from './Search';
 import SearchProvider from '@/providers/SearchProvider';
 import { type SearchProps } from '@/lib/search';
 
-// EDGE Runtime is not working with pg
-export const runtime = 'edge';
+// EDGE Runtime needs changes in db connection to neon serverless
+//export const runtime = 'edge';
 
 type PageProps = {
   searchParams: Promise<SearchProps>;
