@@ -50,8 +50,8 @@ export type Stat = {
 
 //export const getFacets = unstable_cache(async (props: SearchQueryProps): Promise<{ facets: Facet[] }> => {
 export async function getFacets(props: SearchQueryProps): Promise<{ facets: Facet[] }> {
-//  'use cache';
-//  cacheLife('hours');
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getFacets', new Date().toLocaleTimeString());
 
@@ -97,12 +97,10 @@ export async function getFacets(props: SearchQueryProps): Promise<{ facets: Face
 
   //console.log(sql);
 
-  //const { rows } = await dbQuery<Facet>(sql, values);
-  const rows = await dbQuery(sql, values);
+  const { rows } = await dbQuery<Facet>(sql, values);
   //await slow(2000);
 
-  //return { facets: rows };
-  return { facets: rows as Facet[] };
+  return { facets: rows };
 }
 /*
   },
@@ -112,8 +110,8 @@ export async function getFacets(props: SearchQueryProps): Promise<{ facets: Face
 */
 
 export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
-//  'use cache';
-//  cacheLife('hours');
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getResults', new Date().toLocaleTimeString());
 
@@ -194,20 +192,17 @@ export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
   const sql = "SELECT id, name, brand, image, description, price, sale_price, on_sale, on_clearance, price_range, free_shipping, rating, reviews_total, categories, type FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + (sort ? " " + sort : "") + (props.size ? " LIMIT " + props.size : "") + (props.page && props.page > 1 ? " OFFSET " + ((props.page - 1) * props.size) : " OFFSET 0");
   //console.log(sql);
 
-  //const { rows } = await dbQuery<Hit>(sql, values);
-  //const { rows } = await dbQuery(sql, values);
-  const rows = await dbQuery(sql, values);
+  const { rows } = await dbQuery<Hit>(sql, values);
 
   //await slow(5000);
 
-  //return { hits: rows };
-  return { hits: rows as Hit[] };
+  return { hits: rows };
 }
 
 //export const getStats = unstable_cache(async (props: SearchQueryProps): Promise<Stat> => {
 export async function getStats(props: SearchQueryProps): Promise<Stat> {
-//  'use cache';
-//  cacheLife('hours');
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getStats', new Date().toLocaleTimeString());
 
@@ -231,15 +226,12 @@ export async function getStats(props: SearchQueryProps): Promise<Stat> {
   const sql = "SELECT COUNT(*) FROM (SELECT tsv FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + ") AS p";
   //console.log(sql);
 
-  //const { rows } = await dbQuery<Stat>(sql, values);
-  //const { rows } = await dbQuery(sql, values);
-  const rows = await dbQuery(sql, values);
+  const { rows } = await dbQuery<Stat>(sql, values);
   const [row] = rows;
 
   //await slow(3000);
 
-  //return row;
-  return row as Stat;
+  return row;
 }
 /*
 },

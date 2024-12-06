@@ -1,5 +1,5 @@
 //import { Pool, QueryResultRow } from 'pg';
-import { neon } from '@neondatabase/serverless';
+import { Pool, QueryResultRow } from '@neondatabase/serverless';
 
 // Creates a global connection pool
 /*
@@ -15,7 +15,6 @@ const pool = new Pool(process.env.DB_POSTGRES_URL ? {
   idleTimeoutMillis: 30000,
 });
 */
-const sql = neon(process.env.DB_POSTGRES_URL || '');
 
 /*
 export const dbQuery = <Result extends QueryResultRow>(
@@ -24,10 +23,11 @@ export const dbQuery = <Result extends QueryResultRow>(
 ) => {
   return pool.query<Result>(text, params)
 }
-  */
-export const dbQuery = (
+*/
+export const dbQuery = <Result extends QueryResultRow>(
   text: string,
   params: any[] = []
 ) => {
-  return sql(text, params)
+  const pool = new Pool({ connectionString: process.env.DB_POSTGRES_URL });
+  return pool.query(text, params)
 }
