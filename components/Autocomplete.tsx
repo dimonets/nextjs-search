@@ -37,7 +37,7 @@ export default function Autocomplete({
   const query = searchParams.get('query') || '';
   const [isPending, startTransition] = useTransition();
 
-  // temporary ignore eslint compiler rule because of use ref in render bug
+  // Temporary disable eslint compiler rule because of use ref in render bug https://github.com/facebook/react/pull/30843/files
   // eslint-disable-next-line react-compiler/react-compiler
   const onChangeDebounced = useRef(
     debouncePromise(async (e: React.ChangeEvent<HTMLInputElement>) => {
