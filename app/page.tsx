@@ -38,3 +38,7 @@ export default async function Home({ searchParams }: PageProps) {
     </>
   );
 }
+
+export const config = {
+  runtime: 'edge',
+};

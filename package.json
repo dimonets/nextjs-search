@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "@types/pg": "^8.11.10",
     "babel-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
     "clsx": "^2.1.1",

@@ -1,7 +1,9 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
+  "plugins": ["react-compiler"],
   "rules": {
     "@typescript-eslint/no-unused-vars": "off",
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "react-compiler/react-compiler": "error"
   }
 }
