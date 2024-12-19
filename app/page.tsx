@@ -4,6 +4,8 @@ import Search from './Search';
 import SearchProvider from '@/providers/SearchProvider';
 import { type SearchProps } from '@/lib/search';
 
+export const experimental_ppr = true;
+
 // EDGE Runtime needs changes in db connection to neon serverless
 //export const runtime = 'edge';
 

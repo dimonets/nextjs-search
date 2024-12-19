@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   experimental: {
     ppr: 'incremental',
     dynamicIO: true,
-    reactCompiler: true,
+    //reactCompiler: true,
     staleTimes: {
       dynamic: 30,
     },

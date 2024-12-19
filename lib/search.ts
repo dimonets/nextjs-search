@@ -3,7 +3,7 @@ import 'server-only';
 import { dbQuery } from '@/db/index';
 import { unstable_cacheLife as cacheLife } from 'next/cache';
 //import { unstable_cache } from 'next/cache';
-//import { slow } from '@/utils/slow';
+import { slow } from '@/utils/slow';
 
 export type SearchQueryProps = {
   query: string,
@@ -61,25 +61,28 @@ export async function getFacets(props: SearchQueryProps): Promise<{ facets: Face
       conditions4: string[] = [],
       values: string[] = [];
 
+  // If we have less than 2 different facets selected then use more complex logic with multiple values in next queries
+  const useComplexFacets = !(Object.values(props).filter((value) => Array.isArray(value) && value.length > 0).length > 2);
+
   Object.keys(props).map((key: string) => {
     if (Array.isArray(props[key as keyof SearchQueryProps])) {
       const or: string[] = [];
+      const or2: string[] = [];
       const and: string[] = [];
-      const and2: string[] = [];
       (props[key as keyof SearchQueryProps] as string[]).map((item: string | number) => {
-        or.push(`(tsv @@ ''${key}\\:' || $${(values.length + 1)} || '''::tsquery)`);
+        or.push(`(tsv @@ ''${key}\\:' || $${(values.length + 1)}::text || '''::tsquery)`);
         values.push(typeof item === 'string' ? item.replace(/\s/g,"\\ ").replace(/\&/g,"\\&") : item.toString());
-        if (!props['query']) {
-          and.push(`split_part(word, ':', 2) = $${(values.length + 1)}`);
-          and2.push(`split_part(word, ':', 2) <> $${(values.length + 1)}`);
+        if (useComplexFacets && !props['query']) {
+          or2.push(`split_part(word, ':', 2) = $${(values.length + 1)}::text`);
+          and.push(`split_part(word, ':', 2) <> $${(values.length + 1)}::text`);
           values.push(typeof item === 'string' ? item : item.toString());
         }
       });
       conditions.push('(' + or.join(' OR ') + ')');
-      if (!props['query']) {
-        conditions2.push(`(split_part(word, ':', 1) = '${key}'` + " AND (" + and.join(' OR ') + '))');
+      if (useComplexFacets && !props['query']) {
+        conditions2.push(`(split_part(word, ':', 1) = '${key}'` + " AND (" + or2.join(' OR ') + '))');
         conditions3.push(`(split_part(word, ':', 1) <> '${key}')`);
-        conditions4.push(`(split_part(word, ':', 1) = '${key}'` + " AND " + and2.join(' AND ') + ')');
+        conditions4.push(`(split_part(word, ':', 1) = '${key}'` + " AND " + and.join(' AND ') + ')');
       }
     } else if (key === 'query' && props[key]) {
       // TODO: This needs to be improved to protect from SQL injections
@@ -94,10 +97,10 @@ export async function getFacets(props: SearchQueryProps): Promise<{ facets: Face
     : conditions4.length == 1 
       ? "SELECT split_part(word, ':', 1) AS attribute, split_part(word, ':', 2) AS value, ndoc AS count FROM ts_stat('SELECT tsv FROM products WHERE " + conditions.join(' AND ') + "') WHERE (" + conditions2.join(' OR ') + ") OR (" + conditions3.join(' AND ') + ") UNION DISTINCT SELECT split_part(word, ':', 1) AS attribute, split_part(word, ':', 2) AS value, ndoc AS count FROM ts_stat('SELECT tsv FROM products') WHERE (" + conditions4.join(' OR ') + ") ORDER BY count DESC, value ASC"
       : "SELECT split_part(word, ':', 1) AS attribute, split_part(word, ':', 2) AS value, ndoc AS count FROM ts_stat('SELECT tsv FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + "') ORDER BY count DESC, value ASC";
-
   //console.log(sql);
 
   const { rows } = await dbQuery<Facet>(sql, values);
+
   //await slow(2000);
 
   return { facets: rows };
@@ -124,7 +127,7 @@ export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
     if (Array.isArray(props[key as keyof SearchProps])) {
       const or: string[] = [];
       (props[key as keyof SearchProps] as string[]).map((item: string | number) => {
-        or.push(`(tsv @@ ('${key}\\:' || $${(values.length + 1)})::tsquery)`);
+        or.push(`(tsv @@ ('${key}\\:' || $${(values.length + 1)}::text)::tsquery)`);
         values.push(typeof item === 'string' ? item.replace(/\s/g,"\\ ").replace(/\&/g,"\\&") : item.toString());
       });
       conditions.push('(' + or.join(' OR ') + ')');
@@ -213,7 +216,7 @@ export async function getStats(props: SearchQueryProps): Promise<Stat> {
     if (Array.isArray(props[key as keyof SearchQueryProps])) {
       const or: string[] = [];
       (props[key as keyof SearchQueryProps] as string[]).map((item: string | number) => {
-        or.push(`(tsv @@ ('${key}\\:' || $${(values.length + 1)})::tsquery)`);
+        or.push(`(tsv @@ ('${key}\\:' || $${(values.length + 1)}::text)::tsquery)`);
         values.push(typeof item === 'string' ? item.replace(/\s/g,"\\ ").replace(/\&/g,"\\&") : item.toString());
       });
       conditions.push('(' + or.join(' OR ') + ')');
