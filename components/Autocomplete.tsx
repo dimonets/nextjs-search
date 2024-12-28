@@ -42,6 +42,7 @@ export default function Autocomplete({
   const onChangeDebounced = useRef(
     debouncePromise(async (e: React.ChangeEvent<HTMLInputElement>) => {
       startTransition(() => {
+        console.log(searchParams.toString());
         const newSearchParams = new URLSearchParams(searchParams.toString());
         newSearchParams.delete('page');
         if (e.target.value && typeof e.target.value === 'string' && e.target.value.length > 0)
