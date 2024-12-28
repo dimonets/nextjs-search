@@ -2,7 +2,7 @@
 
 import Form from 'next/form';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useTransition, useRef } from 'react';
+import React, { useTransition, useRef, useCallback } from 'react';
 import SearchStatus from './SearchStatus';
 import { cn } from '@/utils/cn';
 
@@ -37,9 +37,7 @@ export default function Autocomplete({
   const query = searchParams.get('query') || '';
   const [isPending, startTransition] = useTransition();
 
-  // Temporary disable eslint compiler rule because of use ref in render bug https://github.com/facebook/react/pull/30843/files
-  // eslint-disable-next-line react-compiler/react-compiler
-  const onChangeDebounced = useRef(
+  const onChangeDebounced = useCallback(
     debouncePromise(async (e: React.ChangeEvent<HTMLInputElement>) => {
       startTransition(() => {
         const newSearchParams = new URLSearchParams(searchParams.toString());
@@ -52,8 +50,9 @@ export default function Autocomplete({
           scroll: false,
         });
       });
-    }, 350)
-  ).current;
+    }, 350),
+    [searchParams]
+  )
 
   return (
     <Form action="/" className={cn('ais-Autocomplete', classNames.root)} role="search">
