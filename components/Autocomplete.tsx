@@ -2,7 +2,7 @@
 
 import Form from 'next/form';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useTransition, useRef, useCallback } from 'react';
+import React, { useTransition, useMemo } from 'react';
 import SearchStatus from './SearchStatus';
 import { cn } from '@/utils/cn';
 
@@ -37,8 +37,8 @@ export default function Autocomplete({
   const query = searchParams.get('query') || '';
   const [isPending, startTransition] = useTransition();
 
-  const onChangeDebounced = useCallback(
-    debouncePromise(async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeDebounced = useMemo(
+    () => debouncePromise(async (e: React.ChangeEvent<HTMLInputElement>) => {
       startTransition(() => {
         const newSearchParams = new URLSearchParams(searchParams.toString());
         newSearchParams.delete('page');
@@ -51,7 +51,7 @@ export default function Autocomplete({
         });
       });
     }, 350),
-    [searchParams]
+    [searchParams, router]
   )
 
   return (
