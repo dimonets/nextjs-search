@@ -1,6 +1,6 @@
 # Faceted Search Next.js/PostgreSQL Demo
 
-This is a Next.js 15 / React 19 search application that uses PostgreSQL as backend database.
+This is a custom implementation of reactive and responsive Faceted Search made using Next.js 15 and PostgreSQL.
 
 Live DEMO hosted on Vercel/Neon: [https://nextjs-search-iota.vercel.app](https://nextjs-search-iota.vercel.app)
 
