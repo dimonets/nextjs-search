@@ -68,7 +68,7 @@ scroll-behavior:smooth;
 }
 
 
-.ais-Autocomplete-input {
+.ais-SearchForm-input {
 -webkit-appearance: none;
 -moz-appearance: none;
 appearance: none;
@@ -348,7 +348,7 @@ border-radius: 0 3px 3px 0;
 }
 
 
-.aa-Autocomplete, .aa-DetachedFormContainer, .aa-Panel {
+.aa-SearchForm, .aa-DetachedFormContainer, .aa-Panel {
 color: rgba(38, 38, 39,1);
 color: rgba(var(--aa-text-color-rgb),var(--aa-text-color-alpha));
 font-family: inherit;

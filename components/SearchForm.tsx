@@ -6,14 +6,14 @@ import React, { useTransition, useMemo } from 'react';
 import SearchStatus from './SearchStatus';
 import { cn } from '@/utils/cn';
 
-type AutocompleteClassNames = {
+type SearchFormClassNames = {
   root: string,
   label: string,
   input: string
 };
 
 type Props = {
-  classNames?: Partial<AutocompleteClassNames>
+  classNames?: Partial<SearchFormClassNames>
 };
 
 function debouncePromise(fn: (e: React.ChangeEvent<HTMLInputElement>) => void, time: number) {
@@ -29,7 +29,7 @@ function debouncePromise(fn: (e: React.ChangeEvent<HTMLInputElement>) => void, t
   };
 }
 
-export default function Autocomplete({
+export default function SearchForm({
   classNames = {}
 }: Props) {
   const router = useRouter();
@@ -55,8 +55,8 @@ export default function Autocomplete({
   )
 
   return (
-    <Form action="/" className={cn('ais-Autocomplete', classNames.root)} role="search">
-      <label className={cn('ais-Autocomplete-label', classNames.label)} htmlFor="search">
+    <Form action="/" className={cn('ais-SearchForm', classNames.root)} role="search">
+      <label className={cn('ais-SearchForm-label', classNames.label)} htmlFor="search">
         Search
       </label>
       <input
@@ -64,7 +64,7 @@ export default function Autocomplete({
         id="search"
         onChange={onChangeDebounced}
         defaultValue={query}
-        className={cn('ais-Autocomplete-input', classNames.input)}
+        className={cn('ais-SearchForm-input', classNames.input)}
         name="query"
         placeholder="Search in product title or brand name..."
         type="search"
@@ -74,19 +74,19 @@ export default function Autocomplete({
   );
 }
 
-export function AutocompleteSkeleton({
+export function SearchFormSkeleton({
   classNames = {}
 }: Props) {
   return (
-    <Form action="/" className={cn('ais-Autocomplete', classNames.root)} role="search">
-      <label className={cn('ais-Autocomplete-label', classNames.label)} htmlFor="search">
+    <Form action="/" className={cn('ais-SearchForm', classNames.root)} role="search">
+      <label className={cn('ais-SearchForm-label', classNames.label)} htmlFor="search">
         Search
       </label>
       <input
         autoComplete="off"
         id="search"
         defaultValue=""
-        className={cn('ais-Autocomplete-input ais-Autocomplete-input--disabled', classNames.input)}
+        className={cn('ais-SearchForm-input ais-SearchForm-input--disabled', classNames.input)}
         name="query"
         placeholder="Search in product title or brand name..."
         type="search"
