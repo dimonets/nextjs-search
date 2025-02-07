@@ -1,17 +1,35 @@
-This is a [Next.js 15](https://nextjs.org) Search project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Faceted Search Next.js/PostgreSQL Demo
 
-## Getting Started
+This is a Next.js 15 / React 19 search application that uses PostgreSQL as backend database.
 
-First, run the development server:
+Live DEMO hosted on Vercel/Neon: [https://nextjs-search-iota.vercel.app](https://nextjs-search-iota.vercel.app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Apps needed to run this application locally:
+- Node.js 20+
+- PostgreSQL 17+
+- PNPM *(recommended over NPM)*
+
+Services recommended to run this application remotely:
+- Vercel
+- Neon or Supabase
+
+## Getting Started Locally
+
+1) Clone this repository
+   
+2) Install required dependencies:
+`pnpm install`
+
+3) Create new database in PostgreSQL
+  
+4) Import the products dump to new database from:
+`~/data/products.json`
+
+5) Copy `~/.env.sample` to `~/.env` and update the database connection parameters there
+
+6) Run the development server:
+`pnpm run dev`
+
+7) Open [http://localhost:3000](http://localhost:3000) with your browser to see the working application.
