@@ -146,7 +146,7 @@ export default async function Search(props: SearchProps) {
             root: 'mt-4 lg:mt-0 mx-auto lg:mx-0 flex-shrink order-2 lg:order-1 justify-center lg:justify-start overflow-hidden relative', 
             list: 'isolate overflow-hidden before:h-8 before:absolute before:z-10 before:inset-0 before:-translate-x-full before:animate-[shimmer_3s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-50 before:to-transparent'
           }} />}>
-            <PaginationMemo statsPromise={statsPromise} pageSize={props.size} currentPage={props.page} classNames={{ 
+            <PaginationMemo statsPromise={statsPromise} pageSize={size} currentPage={page} classNames={{ 
               root: 'mt-4 lg:mt-0 mx-auto lg:mx-0 flex-shrink order-2 lg:order-1 justify-center lg:justify-start', 
             }} />
           </Suspense>
