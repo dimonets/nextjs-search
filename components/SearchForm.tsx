@@ -73,25 +73,3 @@ export default function SearchForm({
     </Form>
   );
 }
-
-export function SearchFormSkeleton({
-  classNames = {}
-}: Props) {
-  return (
-    <Form action="/" className={cn('ais-SearchForm', classNames.root)} role="search">
-      <label className={cn('ais-SearchForm-label', classNames.label)} htmlFor="search">
-        Search
-      </label>
-      <input
-        autoComplete="off"
-        id="search"
-        defaultValue=""
-        className={cn('ais-SearchForm-input ais-SearchForm-input--disabled', classNames.input)}
-        name="query"
-        placeholder="Search in product title or brand name..."
-        type="search"
-        disabled={true}
-      />
-    </Form>
-  );
-}
