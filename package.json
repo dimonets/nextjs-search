@@ -16,7 +16,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "eslint-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
-    "next": "15.2.0-canary.46",
+    "next": "15.2.0-canary.47",
     "pg": "^8.13.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
