@@ -37,7 +37,7 @@ const facets = [{
   title: 'Rating'
 }];
 
-export default function Search(props: SearchProps) {
+export default async function Search(props: SearchProps) {
   
   const { sort, page, size, ...queryProps } = props;
 
