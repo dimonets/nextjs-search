@@ -20,7 +20,7 @@ export default function ClearRefinements({ buttonText, disabled = false, classNa
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className={cn('ais-ClearRefinements', classNames.root)}>
+    <div className={cn('ais-ClearRefinements', classNames.root)} data-pending={isPending ? '' : undefined}>
       <button type="button" className={cn(
           'ais-ClearRefinements-button', 
           disabled ? 'ais-ClearRefinements-button--disabled' : '',

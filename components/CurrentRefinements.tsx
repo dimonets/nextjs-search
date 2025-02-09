@@ -43,7 +43,7 @@ export default function CurrentRefinements({ classNames = {}, props }: Props) {
       'ais-CurrentRefinements',
       noRefinement ? 'ais-CurrentRefinements--noRefinement' : '',
       classNames?.root,
-    )}>
+    )} data-pending={isPending ? '' : undefined}>
       <ul className={cn(
         'ais-CurrentRefinements-list',
         noRefinement ? 'ais-CurrentRefinements-list--noRefinement' : '',
