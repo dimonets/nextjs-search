@@ -22,7 +22,7 @@ export default function HitsPerPage({
   const sortBy = searchParams.get('size') || 10;
   const [isPending, startTransition] = useTransition();
   return (
-    <div className={cn('ais-HitsPerPage', classNames.root)}>
+    <div className={cn('ais-HitsPerPage', classNames.root)} data-pending={isPending ? '' : undefined}>
       <select className={cn('ais-HitsPerPage-select', classNames.select)} role="combobox" aria-expanded="false" aria-label="Refine page size"
         onChange={e => {
           startTransition(() => {

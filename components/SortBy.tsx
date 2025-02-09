@@ -23,7 +23,7 @@ export default function SortBy({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className={cn('ais-SortBy', classNames.root)}>
+    <div className={cn('ais-SortBy', classNames.root)} data-pending={isPending ? '' : undefined}>
       <select className={cn('ais-SortBy-select', classNames.select)} role="combobox" aria-expanded="false" aria-label="Sort results by"
         onChange={e => {
           startTransition(() => {
