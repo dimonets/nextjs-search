@@ -41,7 +41,7 @@ export default function SearchProvider({ defaultView, children }: PropsWithChild
       hitsLoadingTime, 
       setHitsLoadingTime
     }),
-    [showSidebar, statsLoadingTime, facetsLoadingTime, hitsLoadingTime],
+    [showSidebar, view, statsLoadingTime, facetsLoadingTime, hitsLoadingTime],
   );
 
   return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
