@@ -55,7 +55,7 @@ export default function SearchForm({
   )
 
   return (
-    <Form action="/" className={cn('ais-SearchForm', classNames.root)} role="search">
+    <Form action="/" className={cn('ais-SearchForm', classNames.root)} data-pending={isPending ? '' : undefined} role="search">
       <label className={cn('ais-SearchForm-label', classNames.label)} htmlFor="search">
         Search
       </label>

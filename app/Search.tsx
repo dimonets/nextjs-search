@@ -46,7 +46,7 @@ export default async function Search(props: SearchProps) {
   const hitsPromise = stopwatchWrapper(getResults(props));
 
   return (
-    <div className="group">
+    <div>
       <Sidebar>
         {facets.map((facet) => (
           /*
@@ -70,7 +70,7 @@ export default async function Search(props: SearchProps) {
           </Suspense>
         ))}
       </Sidebar>
-      <div className="group-has-[[data-sidebar-open]]:overflow-hidden group-has-[[data-sidebar-open]]:h-0 group-has-[[data-sidebar-open]]:sm:overflow-auto group-has-[[data-sidebar-open]]:sm:h-auto group">
+      <div className="group-has-[[data-sidebar-open]]:overflow-hidden group-has-[[data-sidebar-open]]:h-0 group-has-[[data-sidebar-open]]:sm:overflow-auto group-has-[[data-sidebar-open]]:sm:h-auto">
         <div className="mt-2 items-center md:space-x-4 lg:flex">
           <div className="flex-1">
             {/*
