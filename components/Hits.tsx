@@ -76,6 +76,7 @@ export function ViewButton() {
         type="button"
         className="flex h-10 flex-none cursor-pointer items-center space-x-2 rounded border border-gray-300 px-4 md:ml-auto"
         onClick={() => toggleView()}
+        data-pending={isPending ? '' : undefined}
       >
         <span>View:</span>
         {(view === 'grid')
