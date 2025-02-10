@@ -2,7 +2,6 @@ import 'server-only';
 
 import { dbQuery } from '@/db/index';
 import { unstable_cacheLife as cacheLife } from 'next/cache';
-//import { unstable_cache } from 'next/cache';
 import { slow } from '@/utils/slow';
 
 export type SearchQueryProps = {
@@ -49,8 +48,8 @@ export type Stat = {
 }
 
 export async function getFacets(props: SearchQueryProps): Promise<{ facets: Facet[] }> {
-  //'use cache';
-  //cacheLife('hours');
+  'use cache';
+  cacheLife('hours');
 
   /*
   const conditions: string[] = [],
@@ -129,8 +128,8 @@ export async function getFacets(props: SearchQueryProps): Promise<{ facets: Face
 }
 
 export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
-  //'use cache';
-  //cacheLife('hours');
+  'use cache';
+  cacheLife('hours');
 
   const conditions: string[] = [],
       values: string[] = [];
@@ -227,8 +226,8 @@ export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
 }
 
 export async function getStats(props: SearchQueryProps): Promise<Stat> {
-  //'use cache';
-  //cacheLife('hours');
+  'use cache';
+  cacheLife('hours');
 
   const conditions: string[] = [],
   values: string[] = [];
