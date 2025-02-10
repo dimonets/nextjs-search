@@ -87,7 +87,7 @@ with open('products.sql', 'w', encoding='utf-8') as output_file:
 
           output_file.write(sql)
 
-        if (j > 0 and i > 0):
+        if (j > 0 or i > 0):
           output_file_large.write(",\n")
 
         output_file_large.write(sql)
