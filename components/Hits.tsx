@@ -1,14 +1,17 @@
-//'use client'
+'use client';
 
+import React, { use } from 'react';
 import { type Hit as _Hit } from '@/lib/search';
 import Hit, { HitSkeleton } from '@/components/Hit';
 import { cn } from '@/utils/cn';
 
 type Props = {
-  hits: _Hit[]
+  hitsPromise: Promise<{ hits: _Hit[], executionTime: number }>
 };
 
-export default function Hits({ hits }: Props) {
+export default function Hits({ hitsPromise }: Props) {
+  const { hits, executionTime } = use(hitsPromise);
+
   const view = 'grid';
   return (
     <div className="ais-Hits mt-4">

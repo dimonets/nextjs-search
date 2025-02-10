@@ -1,6 +1,8 @@
 import Breadcrumbs from '@/components/Breadcrumbs';
 import Search from './Search';
 
+export const experimental_ppr = true;
+
 export default async function Home() {
   return (
     <>

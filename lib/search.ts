@@ -23,7 +23,7 @@ export type Hit = {
   type: string
 }
 
-export async function getResults(): Promise<Hit[]> {
+export async function getResults(): Promise<{ hits: Hit[] }> {
   //'use cache';
   //cacheLife('hours');
 
@@ -32,5 +32,5 @@ export async function getResults(): Promise<Hit[]> {
 
   //await slow(10000);
 
-  return rows;
+  return { hits: rows };
 }

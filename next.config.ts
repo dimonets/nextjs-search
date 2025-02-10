@@ -3,6 +3,8 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   compress: true,
   experimental: {
+    ppr: 'incremental',
+    dynamicIO: true,
     staleTimes: {
       dynamic: 30,
     },
