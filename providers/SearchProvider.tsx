@@ -3,6 +3,8 @@
 import { createContext, ReactNode, useContext, useMemo, useState, PropsWithChildren } from 'react';
 
 interface SearchContext {
+  showSidebar: boolean,
+  setShowSidebar: (newValue: boolean) => void,
   view: string,
   setView: (newValue: string) => void,
 }
@@ -13,14 +15,17 @@ export default function SearchProvider({ defaultView, children }: PropsWithChild
     defaultView?: string
   }>) {
   
+  const [showSidebar, setShowSidebar] = useState(false);
   const [view, setView] = useState(defaultView || 'grid');
 
   const value = useMemo(
     () => ({ 
+      showSidebar, 
+      setShowSidebar, 
       view, 
       setView, 
     }),
-    [view],
+    [showSidebar, view],
   );
 
   return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
