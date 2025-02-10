@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { use, useOptimistic, useTransition, useEffect } from 'react';
+import { useSearch } from '@/providers/SearchProvider';
 import { type Facet } from '@/lib/search';
 import { cn } from '@/utils/cn';
 
@@ -27,6 +28,12 @@ export default function RefinementList({ attribute, facetsPromise, classNames = 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [optimisticValues, setOptimisticValues] = useOptimistic(searchParams.getAll(attribute));
+
+  const { setFacetsLoadingTime  } = useSearch();
+
+  useEffect(() => {
+    setFacetsLoadingTime(executionTime);
+  }, [executionTime, setFacetsLoadingTime]);
 
   function handleChange(attribute: string, newValues: string[]) {
     const params = new URLSearchParams(searchParams);

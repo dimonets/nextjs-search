@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, memo } from 'react';
 import Stats, { StatsSkeleton } from '@/components/Stats';
 import Hits, { HitsSkeleton, ViewButton } from '@/components/Hits';
 import Sidebar, { ShowSidebarButton } from '@/components/Sidebar';
@@ -10,9 +10,15 @@ import { Panel, PanelSkeleton } from '@/components/Panel';
 import RefinementList from '@/components/RefinementList';
 import CurrentRefinements from '@/components/CurrentRefinements';
 import ClearRefinements from '@/components/ClearRefinements';
+import LoadingTime from '@/components/LoadingTime';
 import { getFacets, getResults, getStats, type SearchProps, type SearchQueryProps } from '@/lib/search';
 
 import { stopwatchWrapper } from '@/utils/stopwatch';
+
+const StatsMemo = memo(Stats);
+const HitsMemo = memo(Hits);
+const RefinementListMemo = memo(RefinementList);
+const PaginationMemo = memo(Pagination);
 
 const facets = [{
   attribute: 'categories',
@@ -44,7 +50,7 @@ export default async function Search(props: SearchProps) {
         {facets.map((facet) => (
           <Suspense key={`facets-${facet.attribute}`} fallback={<PanelSkeleton header={facet.title} collapsible={true} classNames={{ header: '!text-gray-300' }} />}>
             <Panel header={facet.title} collapsible={true}>
-              <RefinementList attribute={facet.attribute} facetsPromise={facetsPromise} />
+              <RefinementListMemo attribute={facet.attribute} facetsPromise={facetsPromise} />
             </Panel>
           </Suspense>
         ))}
@@ -56,7 +62,7 @@ export default async function Search(props: SearchProps) {
               key={`stats`}
               fallback={<StatsSkeleton classNames={{ root: 'flex-none text-center lg:text-left' }} />}
             >
-              <Stats statsPromise={statsPromise} classNames={{ root: 'flex-none text-center lg:text-left' }} />
+              <StatsMemo statsPromise={statsPromise} classNames={{ root: 'flex-none text-center lg:text-left' }} />
             </Suspense>
           </div>
           <div className="mt-2 hidden flex-1 items-center space-x-4 lg:mt-0 lg:flex">
@@ -72,7 +78,7 @@ export default async function Search(props: SearchProps) {
               <div key={`facets-${facet.attribute}`} className="flex-1">
                 <Suspense key={`facets-${facet.attribute}`} fallback={<FacetDropdown title={facet.title} isRefined={props[facet.attribute as keyof SearchQueryProps] ? true : false} isDisabled={true} classNames={{ root: 'w-full overflow-hidden relative', button: 'w-full whitespace-nowrap !cursor-default isolate overflow-hidden before:absolute before:z-10 before:inset-0 before:-translate-x-full before:animate-[shimmer_3s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-50 before:to-transparent'}} />}>
                   <FacetDropdown title={facet.title} isRefined={props[facet.attribute as keyof SearchQueryProps] ? true : false} classNames={{ root: 'flex-1', button: 'w-full whitespace-nowrap'}}>
-                    <RefinementList attribute={facet.attribute} facetsPromise={facetsPromise} />
+                    <RefinementListMemo attribute={facet.attribute} facetsPromise={facetsPromise} />
                   </FacetDropdown>
                 </Suspense>
               </div>
@@ -95,7 +101,7 @@ export default async function Search(props: SearchProps) {
         }
 
         <Suspense key={`hits`} fallback={<HitsSkeleton />}>
-          <Hits hitsPromise={hitsPromise} query={props.query} />
+          <HitsMemo hitsPromise={hitsPromise} query={props.query} />
         </Suspense>
 
         <div className="mt-4 flex flex-col items-center lg:flex-row lg:space-x-4">
@@ -110,7 +116,7 @@ export default async function Search(props: SearchProps) {
               />
             }
           >
-            <Pagination
+            <PaginationMemo
               statsPromise={statsPromise}
               pageSize={size}
               currentPage={page}
@@ -124,11 +130,14 @@ export default async function Search(props: SearchProps) {
               key={`stats`}
               fallback={<StatsSkeleton classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />}
             >
-              <Stats statsPromise={statsPromise} classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />
+              <StatsMemo statsPromise={statsPromise} classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />
             </Suspense>
             <HitsPerPage classNames={{ root: 'flex-none ml-auto lg:ml-0 order-1 md:order-2' }} />
           </div>
         </div>
+
+        <LoadingTime classNames={{ root: 'mt-4 mx-auto flex space-x-2 italic text-xs justify-center lg:mx-0 lg:justify-start' }}/>
+
       </div>
     </div>
   );

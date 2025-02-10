@@ -1,6 +1,6 @@
 'use client';
 
-import React, { use, useTransition } from 'react';
+import React, { useEffect, use, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearch } from '@/providers/SearchProvider';
 import { type Hit as _Hit } from '@/lib/search';
@@ -14,7 +14,13 @@ type Props = {
 
 export default function Hits({ hitsPromise, query }: Props) {
   const { hits, executionTime } = use(hitsPromise);
-  const { view } = useSearch();
+
+  const { view, setHitsLoadingTime } = useSearch();
+
+  useEffect(() => {
+    setHitsLoadingTime(executionTime);
+  }, [executionTime, setHitsLoadingTime]);
+
   return (
     <div className="ais-Hits mt-4 group-has-[[data-pending]]:animate-pulse">
       <ol className={cn(

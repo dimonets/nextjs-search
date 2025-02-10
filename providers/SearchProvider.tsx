@@ -7,6 +7,12 @@ interface SearchContext {
   setShowSidebar: (newValue: boolean) => void,
   view: string,
   setView: (newValue: string) => void,
+  statsLoadingTime: number,
+  setStatsLoadingTime: (newValue: number) => void,
+  facetsLoadingTime: number,
+  setFacetsLoadingTime: (newValue: number) => void,
+  hitsLoadingTime: number,
+  setHitsLoadingTime: (newValue: number) => void,
 }
 
 const SearchContext = createContext<SearchContext | undefined>(undefined);
@@ -17,6 +23,9 @@ export default function SearchProvider({ defaultView, children }: PropsWithChild
   
   const [showSidebar, setShowSidebar] = useState(false);
   const [view, setView] = useState(defaultView || 'grid');
+  const [statsLoadingTime, setStatsLoadingTime] = useState(0);
+  const [facetsLoadingTime, setFacetsLoadingTime] = useState(0);
+  const [hitsLoadingTime, setHitsLoadingTime] = useState(0);
 
   const value = useMemo(
     () => ({ 
@@ -24,8 +33,14 @@ export default function SearchProvider({ defaultView, children }: PropsWithChild
       setShowSidebar, 
       view, 
       setView, 
+      statsLoadingTime, 
+      setStatsLoadingTime, 
+      facetsLoadingTime, 
+      setFacetsLoadingTime, 
+      hitsLoadingTime, 
+      setHitsLoadingTime
     }),
-    [showSidebar, view],
+    [showSidebar, view, statsLoadingTime, facetsLoadingTime, hitsLoadingTime],
   );
 
   return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;

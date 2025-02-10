@@ -1,6 +1,7 @@
 'use client';
 
-import React, { use } from 'react';
+import React, { useEffect, use } from 'react';
+import { useSearch } from '@/providers/SearchProvider';
 import { type Stat } from '@/lib/search';
 import { cn } from '@/utils/cn';
 
@@ -16,6 +17,12 @@ type Props = {
 
 export default function Stats({ statsPromise, classNames = {} }: Props) {
   const { count, executionTime } = use(statsPromise);
+  const { setStatsLoadingTime  } = useSearch();
+
+  useEffect(() => {
+    setStatsLoadingTime(executionTime);
+  }, [executionTime, setStatsLoadingTime]);
+
   return (
     <div className={cn('ais-Stats', classNames.root)}>
         <span className={cn('ais-Stats-text', classNames.text)}>{count} results found in {executionTime}ms</span>
