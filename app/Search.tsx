@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import Stats, { StatsSkeleton } from '@/components/Stats';
-import Hits, { HitsSkeleton } from '@/components/Hits';
+import Hits, { HitsSkeleton, ViewButton } from '@/components/Hits';
 import Pagination, { PaginationSkeleton } from '@/components/Pagination';
 import SortBy from '@/components/SortBy';
 import HitsPerPage from '@/components/HitsPerPage';
@@ -25,6 +25,7 @@ export default async function Search(props: SearchProps) {
           </Suspense>
         </div>
         <div className="mt-2 hidden flex-1 items-center space-x-4 lg:mt-0 lg:flex">
+          <ViewButton />
           <SortBy />
         </div>
       </div>
