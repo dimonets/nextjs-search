@@ -60,7 +60,7 @@ with open('products-tsv.sql', 'w', encoding='utf-8') as output_file:
 
     data = json.loads(lines)
 
-    for j in range(25):
+    for j in range(50):
       i = 0
       for record in data:
 
