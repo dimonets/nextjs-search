@@ -50,8 +50,8 @@ export type Stat = {
 
 //export const getFacets = unstable_cache(async (props: SearchQueryProps): Promise<{ facets: Facet[] }> => {
 export async function getFacets(props: SearchQueryProps): Promise<{ facets: Facet[] }> {
-  'use cache';
-  cacheLife('hours');
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getFacets', new Date().toLocaleTimeString());
 
@@ -113,8 +113,8 @@ export async function getFacets(props: SearchQueryProps): Promise<{ facets: Face
 */
 
 export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
-  'use cache';
-  cacheLife('hours');
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getResults', new Date().toLocaleTimeString());
 
@@ -204,8 +204,8 @@ export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
 
 //export const getStats = unstable_cache(async (props: SearchQueryProps): Promise<Stat> => {
 export async function getStats(props: SearchQueryProps): Promise<Stat> {
-  'use cache';
-  cacheLife('hours');
+  //'use cache';
+  //cacheLife('hours');
 
   //console.log('getStats', new Date().toLocaleTimeString());
 
@@ -226,7 +226,7 @@ export async function getStats(props: SearchQueryProps): Promise<Stat> {
     }
   });
   
-  const sql = "SELECT COUNT(*) FROM (SELECT tsv FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + ") AS p";
+  const sql = "SELECT COUNT(id) FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "");
   //console.log(sql);
 
   const { rows } = await dbQuery<Stat>(sql, values);
