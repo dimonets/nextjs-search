@@ -9,7 +9,7 @@ type PageProps = {
 };
 
 export default async function Home({ searchParams }: PageProps) {
-  const { query, page, size } = await searchParams;
+  const { query, sort, page, size } = await searchParams;
 
   return (
     <>
@@ -17,6 +17,7 @@ export default async function Home({ searchParams }: PageProps) {
       <h1 className="mt-2 text-xl font-medium text-center lg:text-left">Search</h1>
       <Search 
         query={ query } 
+        sort={ sort } 
         page={ Number(page) || 1 } 
         size={ Number(size) || 10 } 
       />

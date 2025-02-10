@@ -10,6 +10,7 @@ export type SearchQueryProps = {
 }
 
 export interface SearchProps extends SearchQueryProps {
+  sort: string,
   page: number,
   size: number
 }
@@ -43,12 +44,67 @@ export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
   const conditions: string[] = [],
       values: string[] = [];
 
-  const sort: string = 'ORDER BY is_featured DESC NULLS LAST, id DESC';
+  let sort: string = 'ORDER BY is_featured DESC NULLS LAST, id DESC';
 
   Object.keys(props).map((key: string) => {
     if (key === 'query' && props[key]) {
       conditions.push(`((LOWER(brand) LIKE $${(values.length + 1)}) OR (LOWER(name) LIKE $${(values.length + 1)}))`);
       values.push('%' + props[key].toLowerCase() + '%');
+    } else if (key === 'sort' && props[key]) {
+      switch (props[key]) {
+        case 'price_asc': {
+          sort = 'ORDER BY price ASC';
+          break;
+        }
+        case 'price_desc': {
+          sort = 'ORDER BY price DESC';
+          break;
+        }
+        case 'name_asc': {
+          sort = 'ORDER BY name_prefix ASC';
+          break;
+        }
+        case 'name_desc': {
+          sort = 'ORDER BY name_prefix DESC';
+          break;
+        }
+        case 'rating_asc': {
+          sort = 'ORDER BY rating ASC';
+          break;
+        }
+        case 'rating_desc': {
+          sort = 'ORDER BY rating DESC';
+          break;
+        }
+        case 'reviews_asc': {
+          sort = 'ORDER BY reviews_total ASC';
+          break;
+        }
+        case 'reviews_desc': {
+          sort = 'ORDER BY reviews_total DESC';
+          break;
+        }
+        case 'sales_asc': {
+          sort = 'ORDER BY sales_total ASC';
+          break;
+        }
+        case 'sales_desc': {
+          sort = 'ORDER BY sales_total DESC';
+          break;
+        }
+        case 'popularity_asc': {
+          sort = 'ORDER BY popularity ASC';
+          break;
+        }
+        case 'popularity_desc': {
+          sort = 'ORDER BY popularity DESC';
+          break;
+        }
+        default: {
+          sort = 'ORDER BY is_featured DESC NULLS LAST, id DESC';
+          break;
+        }
+      }
     }
   });
 

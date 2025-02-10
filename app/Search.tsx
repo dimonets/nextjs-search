@@ -2,12 +2,14 @@ import { Suspense } from 'react';
 import Stats, { StatsSkeleton } from '@/components/Stats';
 import Hits, { HitsSkeleton } from '@/components/Hits';
 import Pagination, { PaginationSkeleton } from '@/components/Pagination';
+import SortBy from '@/components/SortBy';
+import HitsPerPage from '@/components/HitsPerPage';
 import { getResults, getStats, type SearchProps, type SearchQueryProps } from '@/lib/search';
 
 import { stopwatchWrapper } from '@/utils/stopwatch';
 
 export default async function Search(props: SearchProps) {
-  const { page, size, ...queryProps } = props;
+  const { sort, page, size, ...queryProps } = props;
 
   const statsPromise = stopwatchWrapper(getStats(queryProps));
   const hitsPromise = stopwatchWrapper(getResults(props));
@@ -21,6 +23,9 @@ export default async function Search(props: SearchProps) {
           >
             <Stats statsPromise={statsPromise} classNames={{ root: 'flex-none text-center lg:text-left' }} />
           </Suspense>
+        </div>
+        <div className="mt-2 hidden flex-1 items-center space-x-4 lg:mt-0 lg:flex">
+          <SortBy />
         </div>
       </div>
 
@@ -56,6 +61,7 @@ export default async function Search(props: SearchProps) {
           >
             <Stats statsPromise={statsPromise} classNames={{ root: 'mt-2 md:mt-0 flex-none order-2 md:order-1' }} />
           </Suspense>
+          <HitsPerPage classNames={{ root: 'flex-none ml-auto lg:ml-0 order-1 md:order-2' }} />
         </div>
       </div>
     </div>
