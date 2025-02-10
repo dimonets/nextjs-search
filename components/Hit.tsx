@@ -1,8 +1,5 @@
-'use client';
-
 import React from 'react';
 import Image from 'next/image';
-import badge from '@/public/badge.png';
 import noImage from '@/public/no-image.svg';
 import { type Hit as _Hit } from '@/lib/search';
 
@@ -16,13 +13,7 @@ function getDiscount(price: number, salePrice: number): number | null {
   return price > 0 ? Math.floor((price - salePrice) * 100 / price) : 0;
 }
 
-function Highlight({ text, word}: { text: string, word?: string }) {
-  return word ? <span dangerouslySetInnerHTML={{ __html: text.replace(new RegExp(word, 'gi'), match => {
-    return `<mark>${match}</mark>`;
-  }) }} /> : <span>{ text }</span>
-}
-
-export default function Hit({ hit, view, query }: Props) {
+export default function Hit({ hit, view }: Props) {
   return (view === 'grid'
     ? <article className="product flex h-full w-full flex-col rounded-none border border-gray-300">
       <div className="items-center flex overflow-x-hidden p-4">
@@ -53,10 +44,10 @@ export default function Hit({ hit, view, query }: Props) {
       </div>
       <div className="flex flex-1 flex-col">
         <div className="flex-1 p-4 text-center">
-          <div className="mt-2"><Highlight text={hit.brand} word={query} /></div>
+          <div className="mt-2">{hit.brand}</div>
           <h2 className="mt-2 text-lg font-medium">
             <span className="ais-Highlight">
-              <span className="ais-Highlight-nonHighlighted"><Highlight text={hit.name} word={query} /></span>
+              <span className="ais-Highlight-nonHighlighted">{hit.name}</span>
             </span>
           </h2>
 
@@ -122,10 +113,10 @@ export default function Hit({ hit, view, query }: Props) {
             </div>
           </div>
           <div className="flex-1 md:!ml-4">
-            <div className="mt-2"><Highlight text={hit.brand} word={query} /></div>
+            <div className="mt-2">{hit.brand}</div>
             <h2 className="mt-2 text-lg font-medium">
               <span className="ais-Highlight">
-                <span className="ais-Highlight-nonHighlighted"><Highlight text={hit.name} word={query} /></span>
+                <span className="ais-Highlight-nonHighlighted">{hit.name}</span>
               </span>
             </h2>
 

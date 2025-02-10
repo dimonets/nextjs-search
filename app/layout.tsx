@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(openSans.variable, robotoMono.variable, 'group')}>
+      <body className={cn(openSans.variable, robotoMono.variable)}>
         <Header />
         <main className="px-4 py-4 xl:px-16">{children}</main>
       </body>
