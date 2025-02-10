@@ -9,13 +9,14 @@ type PageProps = {
 };
 
 export default async function Home({ searchParams }: PageProps) {
-  const { page, size } = await searchParams;
+  const { query, page, size } = await searchParams;
 
   return (
     <>
       <Breadcrumbs />
       <h1 className="mt-2 text-xl font-medium text-center lg:text-left">Search</h1>
       <Search 
+        query={ query } 
         page={ Number(page) || 1 } 
         size={ Number(size) || 10 } 
       />

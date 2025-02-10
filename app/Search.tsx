@@ -2,14 +2,14 @@ import { Suspense } from 'react';
 import Stats, { StatsSkeleton } from '@/components/Stats';
 import Hits, { HitsSkeleton } from '@/components/Hits';
 import Pagination, { PaginationSkeleton } from '@/components/Pagination';
-import { getResults, getStats, type SearchProps } from '@/lib/search';
+import { getResults, getStats, type SearchProps, type SearchQueryProps } from '@/lib/search';
 
 import { stopwatchWrapper } from '@/utils/stopwatch';
 
 export default async function Search(props: SearchProps) {
-  const { page, size } = props;
+  const { page, size, ...queryProps } = props;
 
-  const statsPromise = stopwatchWrapper(getStats());
+  const statsPromise = stopwatchWrapper(getStats(queryProps));
   const hitsPromise = stopwatchWrapper(getResults(props));
   return (
     <div>
@@ -25,7 +25,7 @@ export default async function Search(props: SearchProps) {
       </div>
 
       <Suspense key={`hits`} fallback={<HitsSkeleton />}>
-        <Hits hitsPromise={hitsPromise} />
+        <Hits hitsPromise={hitsPromise} query={props.query} />
       </Suspense>
 
       <div className="mt-4 flex flex-col items-center lg:flex-row lg:space-x-4">
