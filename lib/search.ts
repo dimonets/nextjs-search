@@ -7,12 +7,23 @@ import { slow } from '@/utils/slow';
 
 export type SearchQueryProps = {
   query: string,
+  categories?: string | string[],
+  brand?: string | string[],
+  type?: string | string[],
+  price_range?: string | string[],
+  rating?: number | number[]
 }
 
 export interface SearchProps extends SearchQueryProps {
   sort: string,
   page: number,
   size: number
+}
+
+export type Facet = {
+  attribute: string,
+  value: string,
+  count: number
 }
 
 export type Hit = {
@@ -37,6 +48,41 @@ export type Stat = {
   count: number
 }
 
+export async function getFacets(props: SearchQueryProps): Promise<{ facets: Facet[] }> {
+  //'use cache';
+  //cacheLife('hours');
+
+  const conditions: string[] = [],
+      values: string[] = [];
+
+  Object.keys(props).map((key: string) => {
+    if (Array.isArray(props[key as keyof SearchQueryProps])) {
+      const or: string[] = [];
+      (props[key as keyof SearchQueryProps] as string[]).map((item: string | number) => {
+        if (key === 'categories') {
+          item = '["' + item.toString() + '"]';
+          or.push(`(${key} @> $${(values.length + 1)})`)
+        } else {
+          or.push(`(${key} ${key === 'brand' || key === 'type' ? 'LIKE' : '='} $${(values.length + 1)})`);
+        }
+        values.push(item.toString());
+      });
+      conditions.push('(' + or.join(' OR ') + ')');
+    } else if (key === 'query' && props[key]) {
+      conditions.push(`((LOWER(brand) LIKE $${(values.length + 1)}) OR (LOWER(name) LIKE $${(values.length + 1)}))`);
+      values.push('%' + props[key].toLowerCase() + '%');
+    }
+  });
+
+  const sql = "SELECT 'categories' AS attribute, REPLACE(CAST(jsonb_array_elements(categories) AS CHARACTER VARYING(99999)), '\"', '') AS value, COUNT(id) AS count FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + " GROUP BY jsonb_array_elements(categories) UNION SELECT 'brand' AS attribute, brand AS value, COUNT(id) AS count FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + " GROUP BY brand UNION SELECT 'type' AS attribute, type AS value, COUNT(id) AS count FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + " GROUP BY type UNION SELECT 'price_range' AS attribute, price_range AS value, COUNT(id) AS count FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + " GROUP BY price_range UNION SELECT 'rating' AS attribute, CAST(rating AS CHARACTER VARYING(99999)) AS value, COUNT(id) AS count FROM products" + (conditions.length > 0 ? " WHERE " + conditions.join(' AND ') : "") + " GROUP BY rating ORDER BY count DESC";
+
+  const { rows } = await dbQuery<Facet>(sql, values);
+
+  //await slow(5000);
+
+  return { facets: rows };
+}
+
 export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
   //'use cache';
   //cacheLife('hours');
@@ -47,7 +93,19 @@ export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
   let sort: string = 'ORDER BY is_featured DESC NULLS LAST, id DESC';
 
   Object.keys(props).map((key: string) => {
-    if (key === 'query' && props[key]) {
+    if (Array.isArray(props[key as keyof SearchQueryProps])) {
+      const or: string[] = [];
+      (props[key as keyof SearchQueryProps] as string[]).map((item: string | number) => {
+        if (key === 'categories') {
+          item = '["' + item.toString() + '"]';
+          or.push(`(${key} @> $${(values.length + 1)})`)
+        } else {
+          or.push(`(${key} ${key === 'brand' || key === 'type' ? 'LIKE' : '='} $${(values.length + 1)})`);
+        }
+        values.push(item.toString());
+      });
+      conditions.push('(' + or.join(' OR ') + ')');
+    } else if (key === 'query' && props[key]) {
       conditions.push(`((LOWER(brand) LIKE $${(values.length + 1)}) OR (LOWER(name) LIKE $${(values.length + 1)}))`);
       values.push('%' + props[key].toLowerCase() + '%');
     } else if (key === 'sort' && props[key]) {
@@ -124,7 +182,19 @@ export async function getStats(props: SearchQueryProps): Promise<Stat> {
   values: string[] = [];
 
   Object.keys(props).map((key: string) => {
-    if (key === 'query' && props[key]) {
+    if (Array.isArray(props[key as keyof SearchQueryProps])) {
+      const or: string[] = [];
+      (props[key as keyof SearchQueryProps] as string[]).map((item: string | number) => {
+        if (key === 'categories') {
+          item = '["' + item.toString() + '"]';
+          or.push(`(${key} @> $${(values.length + 1)})`)
+        } else {
+          or.push(`(${key} ${key === 'brand' || key === 'type' ? 'LIKE' : '='} $${(values.length + 1)})`);
+        }
+        values.push(item.toString());
+      });
+      conditions.push('(' + or.join(' OR ') + ')');
+    } else if (key === 'query' && props[key]) {
       conditions.push(`((LOWER(brand) LIKE $${(values.length + 1)}) OR (LOWER(name) LIKE $${(values.length + 1)}))`);
       values.push('%' + props[key].toLowerCase() + '%');
     }

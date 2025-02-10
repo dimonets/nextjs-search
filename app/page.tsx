@@ -11,7 +11,7 @@ type PageProps = {
 };
 
 export default async function Home({ searchParams }: PageProps) {
-  const { query, sort, page, size } = await searchParams;
+  const { query, categories, brand, type, price_range, rating, sort, page, size } = await searchParams;
 
   const cookieStore = await cookies();
   const defaultView = cookieStore.get('hits-view');
@@ -23,6 +23,11 @@ export default async function Home({ searchParams }: PageProps) {
       <SearchProvider defaultView={defaultView?.value}>
         <Search 
           query={ query } 
+          categories={ Array.isArray(categories) ? categories.map(String) : categories ? [String(categories)] : undefined } 
+          brand={ Array.isArray(brand) ? brand.map(String) : brand ? [String(brand)] : undefined } 
+          type={ Array.isArray(type) ? type.map(String) : type ? [String(type)] : undefined } 
+          price_range={ Array.isArray(price_range) ? price_range.map(String) : price_range ? [String(price_range)] : undefined } 
+          rating={ Array.isArray(rating) ? rating.map(Number) : rating ? [Number(rating)] : undefined } 
           sort={ sort } 
           page={ Number(page) || 1 } 
           size={ Number(size) || 10 } 
