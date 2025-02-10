@@ -15,7 +15,7 @@ export default function Hits({ hitsPromise, query }: Props) {
 
   const view = 'grid';
   return (
-    <div className="ais-Hits mt-4">
+    <div className="ais-Hits mt-4 group-has-[[data-pending]]:animate-pulse">
       <ol className={cn(
         'ais-Hits-list grid grid-cols-1 gap-4', 
         view === 'grid' ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5' : ''
