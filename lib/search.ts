@@ -2,6 +2,7 @@ import 'server-only';
 
 import { dbQuery } from '@/db/index';
 import { unstable_cacheLife as cacheLife } from 'next/cache';
+//import { unstable_cache } from 'next/cache';
 import { slow } from '@/utils/slow';
 
 export type SearchQueryProps = {
@@ -47,6 +48,7 @@ export type Stat = {
   count: number
 }
 
+//export const getFacets = unstable_cache(async (props: SearchQueryProps): Promise<{ facets: Facet[] }> => {
 export async function getFacets(props: SearchQueryProps): Promise<{ facets: Facet[] }> {
   'use cache';
   cacheLife('hours');
@@ -126,7 +128,14 @@ export async function getFacets(props: SearchQueryProps): Promise<{ facets: Face
 
   return { facets: rows };
 }
+/*
+  },
+  ['facets'],
+  { revalidate: 3600, tags: ['facets'] }
+);
+*/
 
+//export const getResults = unstable_cache(async (props: SearchProps): Promise<{ hits: Hit[] }> => {
 export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
   'use cache';
   cacheLife('hours');
@@ -224,7 +233,14 @@ export async function getResults(props: SearchProps): Promise<{ hits: Hit[] }> {
 
   return { hits: rows };
 }
+/*
+},
+['results'],
+{ revalidate: 3600, tags: ['results'] }
+);
+*/
 
+//export const getStats = unstable_cache(async (props: SearchQueryProps): Promise<Stat> => {
 export async function getStats(props: SearchQueryProps): Promise<Stat> {
   'use cache';
   cacheLife('hours');
@@ -266,3 +282,9 @@ export async function getStats(props: SearchQueryProps): Promise<Stat> {
 
   return row;
 }
+/*
+},
+['stats'],
+{ revalidate: 3600, tags: ['stats'] }
+);
+*/
