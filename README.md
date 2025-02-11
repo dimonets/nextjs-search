@@ -9,7 +9,7 @@ Live DEMO hosted on Vercel/Neon: [https://nextjs-search-iota.vercel.app](https:/
 Apps needed to run this application locally:
 - Node.js 20+
 - PostgreSQL 17+
-- PNPM *(recommended over NPM)*
+- pnpm *(recommended over npm)*
 
 Services recommended to run this application remotely:
 - Vercel
@@ -25,7 +25,7 @@ Services recommended to run this application remotely:
 3) Create new database in PostgreSQL
   
 4) Import the products dump to new database from:
-`~/data/products.json`
+`~/data/products-tsv.sql`
 
 5) Copy `~/.env.sample` to `~/.env` and update the database connection parameters there
 
